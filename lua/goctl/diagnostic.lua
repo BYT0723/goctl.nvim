@@ -1,5 +1,5 @@
 local fn = vim.fn
-local empty = require("goctl.util").empty
+local empty = require("common.util").empty
 
 ---
 ---Validate api file
@@ -11,7 +11,7 @@ local function goctl_api_validate(api)
 		return
 	end
 	local cmd = "!goctl api validate --api " .. api
-  -- os.execute(cmd)
+	-- os.execute(cmd)
 	vim.cmd(cmd)
 end
 
@@ -20,9 +20,9 @@ end
 ---
 ---@param dir? string The target dir
 local function goctl_api_format(dir)
-  if empty(dir) then
-    dir = fn.getcwd()
-  end
-  local cmd = "!goctl api format --dir "..dir
-  vim.cmd(cmd)
+	if empty(dir) then
+		dir = fn.getcwd()
+	end
+	local cmd = "!goctl api format --dir " .. dir
+	vim.cmd(cmd)
 end

@@ -1,5 +1,5 @@
 local fn = vim.fn
-local empty = require("goctl.util").empty
+local empty = require("common.util").empty
 ---
 ---Goctl api doc generate.
 ---

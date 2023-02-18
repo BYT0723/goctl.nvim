@@ -4,6 +4,7 @@ local function goctl_check()
 	local gopath = os.getenv("GOPATH")
 	if gopath == "" then
 		error("%GOPATH not found")
+    return status
 	end
 	local goctl, _ = io.open(os.getenv("GOPATH") .. "/bin/goctl", "r")
 	if goctl ~= nil then
@@ -30,3 +31,10 @@ local function goctl_env()
   local cmd = "!goctl env"
   vim.cmd(cmd)
 end
+
+return {
+  goctl_check = goctl_check,
+  goctl_install = goctl_install,
+  goctl_upgrade = goctl_upgrade,
+  goctl_env = goctl_env,
+}
