@@ -1,19 +1,21 @@
+local M = {}
+
 local fn = vim.fn
-local empty = require("common.util").empty
+local empty = require("goctl.util").empty
 ---
 ---Goctl api doc generate.
 ---
 ---@param dir?    string default=.
 ---@param output? string default=api_name
-local function goctl_api_generate_doc(dir, output)
+function M.goctl_api_generate_doc(dir, output)
 	if empty(dir) then
 		dir = fn.getcwd()
 	end
-	local cmd = "goctl api doc --dir " .. dir
-	if not empty(output) then
-		cmd = cmd .. " -o " .. output
+	if empty(output) then
+		output = dir
 	end
-	os.execute(cmd)
+	local cmd = "!goctl api doc --dir " .. dir .. " -o " .. output
+	vim.cmd(cmd)
 end
 
 ---@alias apiType
@@ -32,7 +34,7 @@ end
 ---@param branch? string       The branch of the remote repo, it does work with --remote
 ---@param remote? string       The remote git repo of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority. The git repo directory must be consistent with the https://github.com/zeromicro/go-zero-template directory structure
 ---@param home?   string       The goctl home path of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority
-local function goctl_api_generate(type, api, dir, opt)
+function M.goctl_api_generate(type, api, dir, opt)
 	if empty(api) then
 		error("api file can't be empty")
 		return
@@ -70,7 +72,7 @@ end
 ---@param   home?   string The goctl home path of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority
 ---@param   remote? string The remote git repo of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority. The git repo directory must be consistent with the https://github.com/zeromicro/go-zero-template directory structure
 ---@param   style?  string The file naming format, see [https://github.com/zeromicro/go-zero/blob/master/tools/goctl/config/readme.md] (default "gozero")
-local function goctl_api_fast_new(name)
+function M.goctl_api_fast_new(name)
 	if empty(name) then
 		error("service name can't be empty")
 		return
@@ -91,9 +93,9 @@ end
 ---@param remote  string The remote git repo of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority. The git repo directory must be consistent with the https://github.com/zeromicro/go-zero-template directory structure
 ---@param tz      string The timezone of the container (default "Asia/Shanghai")
 ---@param version string The goctl builder golang image version
-local function goctl_docker_()
-  local cmd = "!goctl docker"
-  vim.cmd(cmd)
+function M.goctl_docker()
+	local cmd = "!goctl docker"
+	vim.cmd(cmd)
 end
 
 ---
@@ -120,13 +122,11 @@ end
 ---@param secret          string The secret to image pull from registry
 ---@param serviceAccount  string The ServiceAccount for the deployment
 ---@param targetPort      int    The targetPort of the deployment, default to port
-local function goctl_kube_deploy()
-  local cmd = "!goctl kube deploy" 
-  -- ...
-  vim.cmd(cmd)
+function M.goctl_kube_deploy()
+	local cmd = "!goctl kube deploy"
+	-- ...
+	vim.cmd(cmd)
 end
-
-
 
 --[[
 --  wait develop ......
@@ -141,10 +141,8 @@ end
 ---Generate model file
 ---
 ---@param type modelType The type of datebase
----@return  
-local function goctl_model(type)
-  
-end
+---@return
+local function goctl_model(type) end
 
 ---
 ---Fast new a rpc service
@@ -155,12 +153,11 @@ end
 ---@param remote string   The remote git repo of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority. The git repo directory must be consistent with the https://github.com/zeromicro/go-zero-template directory structure
 ---@param style string    The file naming format, see [https://github.com/zeromicro/go-zero/tree/master/tools/goctl/config/readme.md] (default "gozero")
 ---@param verbose         Enable log output
-local function goctl_rpc_fast_new(name)
-  local cmd = "goctl rpc new "..name
-  -- ....
-  vim.cmd(cmd)
+function M.goctl_rpc_fast_new(name)
+	local cmd = "goctl rpc new " .. name
+	-- ....
+	vim.cmd(cmd)
 end
-
 
 ---
 ---Generate a proto file
@@ -170,10 +167,10 @@ end
 ---@param home string     The goctl home path of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority
 ---@param o string        Output a sample proto file
 ---@param remote string   The remote git repo of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority. The git repo directory must be consistent with the https://github.com/zeromicro/go-zero-template directory structure
-local function goctl_rpc_new_proto(output)
-  local cmd = "goctl rpc template -o "..output
-  -- ......
-  vim.cmd(cmd)
+function M.goctl_rpc_new_proto(output)
+	local cmd = "goctl rpc template -o " .. output
+	-- ......
+	vim.cmd(cmd)
 end
 
 ---
@@ -187,11 +184,12 @@ end
 ---@param style string      The file naming format, see [https://github.com/zeromicro/go-zero/tree/master/tools/goctl/config/readme.md] (default "gozero")
 ---@param verbose           Enable log output
 ---@param zrpc_out string   The zrpc output directory
-local function goctl_rpc_generate(proto)
-  --sample
-  --goctl rpc protoc xx.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=.
-  local cmd = "goctl rpc "..proto
-  -- ......
-  vim.cmd(cmd)
+function M.goctl_rpc_generate(proto)
+	--sample
+	--goctl rpc protoc xx.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=.
+	local cmd = "goctl rpc " .. proto
+	-- ......
+	vim.cmd(cmd)
 end
 
+return M

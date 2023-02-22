@@ -2,31 +2,34 @@ if exists('b:current_syntax') | finish | endif
 
 syn case match
 
-syn keyword     apiDirective         syntax import
-syn keyword     apiDeclaration       type service info
-syn keyword     apiDeclType          struct interface
+syn keyword apiVersion        syntax
+syn keyword apiImport         import 
+syn keyword apiTypeDelaration type   
+syn keyword apiService        service
+syn keyword apiInfo           info   
 
-hi def link     apiDirective         Statement
-hi def link     apiDeclaration       Keyword
-hi def link     apiDeclType          Keyword
+hi def link apiVersion        Statement
+hi def link apiImport         Statement
+hi def link apiTypeDelaration Keyword
+hi def link apiService        Keyword
+hi def link apiInfo           Keyword
 
-syn keyword     apiStatement         returns get post delete put
-hi def link     apiStatement         Statement
+" ----------------------------------
 
-syn match       apiType              /\<func\>/
-syn match       apiDeclaration       /^func\>/
+syn keyword apiStatement get post delete put returns
+syn region apiExplainServer  start="@server"  end=")"
+syn region apiExplainHandler start="@handler" end="\n"
+syn region apiExplainDoc     start="@doc"     end="\n"
 
-syn keyword     apiType              chan map bool string error
-syn keyword     apiSignedInts        int int8 int16 int32 int64 rune
-syn keyword     apiUnsignedInts      byte uint uint8 uint16 uint32 uint64 uintptr
-syn keyword     apiFloats            float32 float64
-syn keyword     apiComplexes         complex64 complex128
+hi def link apiStatement      Statement
+hi def link apiExplainServer  Comment
+hi def link apiExplainHandler Comment
+hi def link apiExplainDoc     Comment
 
-hi def link     apiType             Type
-hi def link     apiSignedInts       Type 
-hi def link     apiUnsignedInts     Type 
-hi def link     apiFloats           Type 
-hi def link     apiComplexes        Type
+"-----------------------------------
+
+syn keyword apiType bool int int8 int16 int32 int64 uint uint8 uint16 uint32 uint64 uintptr  float32 float64 complex64 complex128 string byte rune
+hi def link     apiType              Type
 
 " Strings and their contents
 syn region      apiString            start=+"+ skip=+\\\\\|\\"+ end=+"+
@@ -36,7 +39,6 @@ hi def link     apiString            String
 hi def link     apiRawString         String
 
 syn region      apiCharacter         start=+'+ skip=+\\\\\|\\'+ end=+'+
-
 hi def link     apiCharacter         Character
 
 let b:current_syntax = 'goctl'
