@@ -9,10 +9,6 @@ local util = require("goctl.util")
 local FILETYPE = "goctl"
 local AUGROUP = "Goctl"
 
-local function handle_enter_goctl()
-	vim.cmd("set filetype=" .. FILETYPE)
-end
-
 local function set_autocommands()
 	api.nvim_create_augroup(AUGROUP, { clear = true })
 
@@ -22,10 +18,12 @@ local function set_autocommands()
 		pattern = "*.api",
 		group = AUGROUP,
 		nested = true,
-		callback = handle_enter_goctl,
+		callback = function()
+			vim.cmd("set filetype=" .. FILETYPE)
+		end,
 	})
 
-	atcmd({ "BufRead", "CursorHoldI" }, {
+	atcmd({ "BufRead", "InsertLeave", "CursorMovedI" }, {
 		pattern = "*.api",
 		group = AUGROUP,
 		nested = true,
