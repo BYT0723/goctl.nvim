@@ -1,5 +1,10 @@
+local M = {}
+
+local api = vim.api
+local fn = vim.fn
+
 ---Check goctl binary
-local function goctl_check()
+function M.goctl_check()
 	local status = false
 	local gopath = os.getenv("GOPATH")
 	if gopath == "" then
@@ -15,26 +20,24 @@ local function goctl_check()
 end
 
 ---Install goctl
-local function goctl_install()
+function M.goctl_install()
 	local cmd = "GOPROXY=https://goproxy.cn/,direct go install github.com/zeromicro/go-zero/tools/goctl@latest"
-	os.execute(cmd)
+	fn.jobstart(cmd)
+
+	cmd = "!goctl env check -i -f -v"
+	fn.jobstart(cmd)
 end
 
 ---Upgrade goctl
-local function goctl_upgrade()
+function M.goctl_upgrade()
 	local cmd = "goctl upgrade"
-	os.execute(cmd)
+	fn.jobstart(cmd)
 end
 
 ---Check goctl environment
-local function goctl_env()
+function M.goctl_env()
 	local cmd = "!goctl env"
-	vim.cmd(cmd)
+	api.nvim_exec(cmd, false)
 end
 
-return {
-	goctl_check = goctl_check,
-	goctl_install = goctl_install,
-	goctl_upgrade = goctl_upgrade,
-	goctl_env = goctl_env,
-}
+return M

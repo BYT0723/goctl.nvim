@@ -1,6 +1,7 @@
 local M = {}
 local api = vim.api
 
+local common = require("goctl.common")
 local generate = require("goctl.generate")
 local command = require("goctl.command")
 local util = require("goctl.util")
@@ -34,9 +35,19 @@ end
 local function set_commands()
 	local cmd = api.nvim_create_user_command
 
-	cmd("GoctlGenerateDoc", function()
-		generate.goctl_api_generate_doc()
-	end, { complete = command.api_generate_doc_complete, nargs = "*" })
+	-- common --
+	cmd("GoctlUpgrade", function()
+		if not common.goctl_check() then
+			common.goctl_install()
+		else
+			common.goctl_upgrade()
+		end
+	end, {})
+
+	cmd("GoctlEnv", common.goctl_env, {})
+
+	-- util ---
+	cmd("GoctlApiFormat", util.goctl_api_format, {})
 
 	cmd("GoctlGenerate", function()
 		generate.goctl_api_generate()
