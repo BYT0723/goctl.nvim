@@ -24,7 +24,7 @@ local function set_autocommands()
 		end,
 	})
 
-	atcmd({ "BufRead", "InsertLeave", "CursorMovedI" }, {
+	atcmd({ "BufRead", "TextChanged", "TextChangedI" }, {
 		pattern = "*.api",
 		group = AUGROUP,
 		nested = true,
