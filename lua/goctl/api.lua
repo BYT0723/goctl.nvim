@@ -91,7 +91,7 @@ function M.new()
 		job:new(cmd)
 	end
 
-	input:new("Path", "greet", on_submit):display()
+	input:new("New Service", "greet", on_submit):display()
 end
 
 function M.doc()
@@ -170,10 +170,10 @@ function M.generate()
 	local type_submit = function(item)
 		table.insert(cmd, item.id)
 		type = item.id
-		input:new("Path", util.filename_ex_suffix(), dir_submit):display()
+		input:new("Dir", util.filename_ex_suffix(), dir_submit):display()
 	end
 
-	menu:new("Api Generate", {
+	menu:new("Service Language", {
 		{ text = "Golang", id = "go" },
 		{ text = "Typescript", id = "ts" },
 		{ text = "Dart", id = "dart" },
