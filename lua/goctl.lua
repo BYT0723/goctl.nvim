@@ -4,8 +4,8 @@ local api = vim.api
 local common = require("goctl.common")
 local generate = require("goctl.generate")
 local command = require("goctl.command")
-local util = require("goctl.util")
 local goctl_api = require("goctl.api")
+local goctl_rpc = require("goctl.rpc")
 
 -- variable
 local FILETYPE = "goctl"
@@ -55,29 +55,8 @@ local function set_commands()
 	cmd("GoctlApiGenerate", goctl_api.generate, {})
 	cmd("GoctlApi", goctl_api.menu, {})
 
-	cmd("GoctlFastNew", function()
-		generate.goctl_api_fast_new()
-	end, { complete = command.goctl_api_fast_new_complete, nargs = "*" })
-
-	cmd("GoctlDocker", function()
-		generate.goctl_docker()
-	end, { complete = command.docker_complete, nargs = "*" })
-
-	cmd("GoctlKubeDeploy", function()
-		generate.goctl_kube_deploy()
-	end, { complete = command.kube_deploy_complete, nargs = "*" })
-
-	cmd("GoctlRpcFastNew", function()
-		generate.goctl_rpc_fast_new()
-	end, { complete = command.rpc_fast_new_complete, nargs = "*" })
-
-	cmd("GoctlRpcNewProto", function()
-		generate.goctl_rpc_new_proto()
-	end, { complete = command.rpc_new_proto_complete, nargs = "*" })
-
-	cmd("GoctlRpcGenerate", function()
-		generate.goctl_rpc_generate()
-	end, { complete = command.rpc_generate_complete, nargs = "*" })
+	cmd("GoctlRpcNew", goctl_rpc.new, {})
+	cmd("GoctlRpcProtoc", goctl_rpc.protoc, {})
 end
 
 function M.setup(user_prefs)
