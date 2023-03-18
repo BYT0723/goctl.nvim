@@ -2,7 +2,6 @@ local M = {}
 local api = vim.api
 
 local common = require("goctl.common")
-local generate = require("goctl.generate")
 local command = require("goctl.command")
 local goctl_api = require("goctl.api")
 local goctl_rpc = require("goctl.rpc")
