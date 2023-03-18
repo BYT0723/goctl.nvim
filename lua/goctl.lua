@@ -5,6 +5,7 @@ local common = require("goctl.common")
 local generate = require("goctl.generate")
 local command = require("goctl.command")
 local util = require("goctl.util")
+local goctl_api = require("goctl.api")
 
 -- variable
 local FILETYPE = "goctl"
@@ -28,7 +29,7 @@ local function set_autocommands()
 		pattern = "*.api",
 		group = AUGROUP,
 		nested = true,
-		callback = util.goctl_api_validate,
+		callback = goctl_api.validate,
 	})
 end
 
@@ -47,11 +48,12 @@ local function set_commands()
 	cmd("GoctlEnv", common.goctl_env, {})
 
 	-- util ---
-	cmd("GoctlApiFormat", util.goctl_api_format, {})
+	cmd("GoctlApiFormat", goctl_api.format, {})
 
-	cmd("GoctlGenerate", function()
-		generate.goctl_api_generate()
-	end, { complete = command.api_generate_complete, nargs = "*" })
+	cmd("GoctlApiNew", goctl_api.new, {})
+	cmd("GoctlApiDoc", goctl_api.doc, {})
+	cmd("GoctlApiGenerate", goctl_api.generate, {})
+	cmd("GoctlApi", goctl_api.menu, {})
 
 	cmd("GoctlFastNew", function()
 		generate.goctl_api_fast_new()
