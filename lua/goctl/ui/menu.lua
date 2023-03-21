@@ -2,10 +2,19 @@ local M = {}
 
 local Menu = require("nui.menu")
 
-function M:new(title, items, on_submit)
+---
+--- new menu component
+---
+---@param  title string
+---@param  items table
+---@param  on_submit function
+---@param  on_change? function
+function M:new(title, items, on_submit, on_change)
+	M.items = items
+
 	local lines = {}
 	for _, v in ipairs(items) do
-		table.insert(lines, Menu.item(v.text, { id = v.id }))
+		table.insert(lines, Menu.item(v.text, v))
 	end
 	local menu = Menu({
 		position = "50%",
@@ -34,6 +43,7 @@ function M:new(title, items, on_submit)
 		},
 		on_close = function() end,
 		on_submit = on_submit,
+		on_change = on_change,
 	})
 
 	M.payload = menu

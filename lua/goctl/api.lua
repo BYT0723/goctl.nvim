@@ -122,7 +122,7 @@ function M.generate()
 			if path == "" then
 				return
 			end
-      table.insert(cmd, item.id)
+      table.insert(cmd, item.value)
       table.insert(cmd, path)
 
       job:new(cmd)
@@ -158,37 +158,37 @@ function M.generate()
 			input:new("Package", util.filename_ex_suffix(), pkg_submit):display()
 		elseif type == "ts" then
 			menu:new("Web Api", {
-				{ text = "Caller", id = "--caller" },
-				{ text = "WebApi", id = "--webapi" },
+				{ text = "Caller", value = "--caller" },
+				{ text = "WebApi", value = "--webapi" },
 			}, ts_webapi_submit):display()
 		elseif type == "dart" then
       -- stylua: ignore
-			input:new("Hostname", "", dart_hostname_submit):display()
+			input:new("Hostname", "go-zero.dev", dart_hostname_submit):display()
 		end
 	end
 
 	local type_submit = function(item)
-		table.insert(cmd, item.id)
-		type = item.id
+		table.insert(cmd, item.value)
+		type = item.value
 		input:new("Dir", util.filename_ex_suffix(), dir_submit):display()
 	end
 
 	menu:new("Service Language", {
-		{ text = "Golang", id = "go" },
-		{ text = "Typescript", id = "ts" },
-		{ text = "Dart", id = "dart" },
-		{ text = "Kotlin", id = "kt" },
+		{ text = "Golang", value = "go" },
+		{ text = "Typescript", value = "ts" },
+		{ text = "Dart", value = "dart" },
+		{ text = "Kotlin", value = "kt" },
 	}, type_submit):display()
 end
 
 function M.menu()
 	local on_submit = function(item)
-		M[item.id]()
+		M[item.value]()
 	end
 	menu:new("Api Dashboard", {
-		{ text = "New Service", id = "new" },
-		{ text = "Generate Service", id = "generate" },
-		{ text = "Generate Document", id = "doc" },
+		{ text = "New Service", value = "new" },
+		{ text = "Generate Service", value = "generate" },
+		{ text = "Generate Document", value = "doc" },
 	}, on_submit):display()
 end
 
