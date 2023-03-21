@@ -8,10 +8,19 @@ local function on_event(job_id, data, event)
 		return
 	end
 
+	local res = {}
+
+	for _, v in ipairs(data) do
+		if vim.trim(v) ~= "" then
+			local line = string.gsub(v, "\x1b[\\[0-9]+m", "")
+			table.insert(res, line)
+		end
+	end
+
 	if event == "stdout" then
-		notify:Info(data)
+		notify:Info(res)
 	elseif event == "stderr" then
-		notify:Error(data)
+		notify:Error(res)
 	else
 		notify:Info("Done!")
 	end
