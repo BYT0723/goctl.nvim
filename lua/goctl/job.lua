@@ -18,9 +18,9 @@ local function on_event(job_id, data, event)
 	end
 
 	if event == "stdout" then
-		notify:Info(res)
+		notify:Info(table.concat(res, "\n"))
 	elseif event == "stderr" then
-		notify:Error(res)
+		notify:Info(table.concat(res, "\n"))
 	else
 		notify:Info("Done!")
 	end
