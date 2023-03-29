@@ -5,6 +5,7 @@ local common = require("goctl.common")
 local command = require("goctl.command")
 local goctl_api = require("goctl.api")
 local goctl_rpc = require("goctl.rpc")
+local goctl_model = require("goctl.model")
 
 -- variable
 local FILETYPE = "goctl"
@@ -56,6 +57,8 @@ local function set_commands()
 
 	cmd("GoctlRpcNew", goctl_rpc.new, {})
 	cmd("GoctlRpcProtoc", goctl_rpc.protoc, {})
+
+	cmd("GoctlModel", goctl_model.menu, {})
 end
 
 function M.setup(user_prefs)
