@@ -62,7 +62,7 @@ end
 ---Format api file
 ---
 function M.format()
-	local cmd = { "goctl", "api", "format --stdin" }
+	local cmd = { "goctl", "api", "format", "--stdin" }
 	local job_id = fn.jobstart(cmd, {
 		on_stdout = on_format_stdout,
 		stdout_buffered = true,
