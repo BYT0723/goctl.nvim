@@ -1,6 +1,7 @@
 local M = {}
 
 local api, fn = vim.api, vim.fn
+local ns = api.nvim_create_namespace("goctl.nvim")
 local input = require("goctl.ui.input")
 local menu = require("goctl.ui.menu")
 
@@ -11,27 +12,27 @@ local util = require("goctl.util")
 ---
 --- validate stderr event
 ---
+
 local function on_validate_stderr(_, data)
-	local msg = string.match(data[1], "%d+:%d+[^\n]+")
+	vim.diagnostic.reset(ns, 0)
 
-	local ns = api.nvim_create_namespace("goctl.nvim")
-
-	if msg == nil or msg == "" then
-		vim.diagnostic.reset(ns, 0)
-	else
-		local i = string.find(msg, ":")
-		local j = string.find(msg, " ")
-		local row = tonumber(string.sub(msg, 0, i - 1))
-		local col = tonumber(string.sub(msg, i + 1, j))
-		msg = string.sub(msg, j + 1)
-
+	for _, item in ipairs(data) do
+		local msg = string.match(item, "%d+:%d+[^\n]+")
+		if msg ~= nil and msg ~= "" then
+			local i = string.find(msg, ":")
+			local j = string.find(msg, " ")
+			local row = tonumber(string.sub(msg, 0, i - 1))
+			local col = tonumber(string.sub(msg, i + 1, j))
+			msg = string.sub(msg, j + 1)
       -- stylua: ignore
-			vim.diagnostic.set(ns, 0, {{
-					bufnr = 0,
-					lnum = row - 1,
-					col = col,
-					message = msg,
-				}}, nil)
+      vim.diagnostic.set(ns, 0, {{
+          bufnr = 0,
+          lnum = row - 1,
+          col = col,
+          source = "goctl",
+          message = msg,
+        }}, nil)
+		end
 	end
 end
 
